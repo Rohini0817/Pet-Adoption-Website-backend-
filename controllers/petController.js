@@ -1,4 +1,4 @@
-import Pet from "../models/pet.js"; // ✅ Correct the path (you wrote "./controllers/petController" by mistake earlier)
+import Pet from "../models/Pet.js"; // ✅ Correct the path (you wrote "./controllers/petController" by mistake earlier)
 
 export const getAllPets = async (req, res) => {
   try {
