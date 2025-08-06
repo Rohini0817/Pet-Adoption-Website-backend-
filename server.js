@@ -1,5 +1,3 @@
-// server.js
-
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -10,7 +8,7 @@ import petRoutes from "./routes/petRoutes.js";
 import adoptionRoutes from "./routes/adoptionRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
-import authRoutes from "./routes/authRoutes.js"; // if not added, add this too
+import authRoutes from "./routes/authRoutes.js"; // Login/Register routes
 
 // ✅ Load environment variables
 dotenv.config();
@@ -18,16 +16,25 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ✅ CORS Configuration for Vercel frontend
+app.use(
+  cors({
+    origin: [
+      "https://pet-adoption-frontend-2y3z87ssk.vercel.app", // ✅ your frontend URL
+    ],
+    credentials: true,
+  })
+);
+
 // ✅ Middleware
-app.use(cors());               // Enable Cross-Origin Resource Sharing
-app.use(express.json());       // Parse incoming JSON payloads
+app.use(express.json()); // Parse incoming JSON payloads
 
 // ✅ API Routes
 app.use("/api/pets", petRoutes);
 app.use("/api/adoptions", adoptionRoutes);
-app.use("/api/admin", adminRoutes);         // 👈 Admin routes
-app.use("/api/contact", contactRoutes);     // 👈 Contact routes
-app.use("/api/auth", authRoutes);           // 👈 Login/Register (if not already added)
+app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/auth", authRoutes);
 
 // ✅ Root test route
 app.get("/", (req, res) => {
