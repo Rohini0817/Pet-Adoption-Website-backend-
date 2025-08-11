@@ -1,16 +1,21 @@
-// routes/adminRoutes.js
+import {
+  getAllUsers,
+  getAllAdoptions
+} from "../controllers/adminController.js";
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
 
 import express from "express";
-import { getAllAdoptions } from "../controllers/adoptionController.js";
-
 const router = express.Router();
 
-// ✅ Route to fetch all adoptions
-router.get("/adoptions", getAllAdoptions);
+// Fetch all users (Admin only)
+router.get("/users", protect, adminOnly, getAllUsers);
 
-// 🔁 TEMPORARY: Route to test admin route is active
+// Fetch all adoptions (Admin only)
+router.get("/adoptions", protect, adminOnly, getAllAdoptions);
+
+// Test route to check if admin routes are active
 router.get("/test", (req, res) => {
-  res.send("Admin test route working ✅");
+  res.status(200).send("Admin test route working ✅");
 });
 
 export default router;
